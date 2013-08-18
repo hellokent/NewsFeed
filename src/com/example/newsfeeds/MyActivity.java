@@ -2,15 +2,20 @@ package com.example.newsfeeds;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import com.example.newsfeeds.ui.view.PieControl;
 
 public class MyActivity extends Activity {
-	/**
-	 * Called when the activity is first created.
-	 */
+	PieControl mPieControl;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		mPieControl = new PieControl(this);
+		View contentView = getLayoutInflater().inflate(R.layout.main, null);
+		setContentView(contentView);
+		FrameLayout rootView = (FrameLayout) contentView.findViewById(R.id.root);
+		mPieControl.attachToContainer(rootView);
 
 	}
 }

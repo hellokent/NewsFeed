@@ -41,8 +41,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private final static String AA_DB_NAME = "AA_DB_NAME";
-	private final static String AA_DB_VERSION = "AA_DB_VERSION";
+	private final static String DB_NAME = "DB_NAME";
+	private final static String DB_VERSION = "DB_VERSION";
 
 	private final static String MIGRATION_PATH = "migrations";
 
@@ -212,24 +212,24 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	// Meta-data methods
 
 	private static String getDbName(Context context) {
-		String aaName = ReflectionUtils.getMetaData(context, AA_DB_NAME);
+		String name = ReflectionUtils.getMetaData(context, DB_NAME);
 
-		if (aaName == null) {
-			Log.i("AA_DB_NAME not found. Defaulting name to 'Application.db'.");
-			aaName = "Application.db";
+		if (name == null) {
+			Log.i("DB_NAME not found. Defaulting name to 'Application.db'.");
+			name = "Application.db";
 		}
 
-		return aaName;
+		return name;
 	}
 
 	private static int getDbVersion(Context context) {
-		Integer aaVersion = ReflectionUtils.getMetaData(context, AA_DB_VERSION);
+		Integer version = ReflectionUtils.getMetaData(context, DB_VERSION);
 
-		if (aaVersion == null || aaVersion == 0) {
-			Log.i("AA_DB_VERSION not found. Defaulting version to 1.");
-			aaVersion = 1;
+		if (version == null || version == 0) {
+			Log.i("DB_VERSION not found. Defaulting version to 1.");
+			version = 1;
 		}
 
-		return aaVersion;
+		return version;
 	}
 }
