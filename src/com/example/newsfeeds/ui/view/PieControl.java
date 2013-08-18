@@ -158,8 +158,13 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
 //        mBookmarks.addItem(mHistory);
     }
 
+	@LogInfo(showTrace = true)
+	public void onClick() {
+
+	}
+
     @Override
-    @LogInfo(info = "pie.onclick")
+    @LogInfo(showTrace = false)
     public void onClick(View v) {
 	    L.v("onClick");
 	    if (mBack.getView() == v) {

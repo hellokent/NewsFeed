@@ -45,26 +45,23 @@ public final class L {
 		final StringBuilder strBuffer = new StringBuilder();
 		String tag = "";
 		String info = "";
+		boolean isShownTrace = false;
 		try {
 			final Class clazz = Class.forName(stack.getClassName());
 			LogInfo methodLogInfo = null;
 			for (Method method : clazz.getMethods()){
 				if (method.getName().equals(stack.getMethodName())){
-					methodLogInfo = method.getAnnotation(LogInfo.class);
-					break;
+					if (methodLogInfo == null)
+						methodLogInfo = method.getAnnotation(LogInfo.class);
+					if (methodLogInfo != null && methodLogInfo.showTrace()){
+						isShownTrace = true;
+						break;
+					}
 				}
 			}
 			if (methodLogInfo != null){
 				tag = methodLogInfo.tag();
 				info = methodLogInfo.info();
-
-				if (methodLogInfo.showTrace()){
-					strBuffer.append("Stack Trace:\n");
-					for (int i = STACK_DEPTH; i < stacks.length; ++i){
-						strBuffer.append("\t")
-								.append(getThreadInfo(stacks[i]));
-					}
-				}
 			}
 			final LogInfo classLogInfo = (LogInfo) clazz.getAnnotation(LogInfo.class);
 			if (classLogInfo != null){
@@ -79,13 +76,27 @@ public final class L {
 		if (TextUtils.isEmpty(tag)){
 			tag = TAG;
 		}
-		if (!TextUtils.isEmpty(info)){
-			strBuffer.append("[")
-					.append(info)
-					.append("] ");
+		if (isShownTrace){
+			appendInfo(strBuffer, info)
+					.append("Stack Trace:\n");
+			for (int i = STACK_DEPTH; i < stacks.length; ++i){
+				strBuffer.append("\t")
+						.append(getThreadInfo(stacks[i]));
+			}
 		}
+		appendInfo(strBuffer, info);
 		strBuffer.append(String.format(msg, args));
 		Log.println(level, tag, strBuffer.toString());
+	}
+
+	private static StringBuilder appendInfo(final StringBuilder strBuf, final String info){
+		if (TextUtils.isEmpty(info)){
+			return strBuf;
+		}
+		strBuf.append("[")
+				.append(info)
+				.append("] ");
+		return strBuf;
 	}
 
 	private static String getThreadInfo(StackTraceElement stack){
