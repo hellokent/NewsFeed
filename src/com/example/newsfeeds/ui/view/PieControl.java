@@ -31,6 +31,19 @@ import com.example.newsfeeds.utils.L;
 import com.example.newsfeeds.utils.LogInfo;
 
 /**
+ * PieMenu的菜单项如下
+ * 1. 设置
+ *    >夜间模式
+ *    >设置
+ * 2. 返回
+ *    >刷新
+ *    >返回
+ * 3. 发布
+ *    >发状态
+ *    >发图片
+ * 4. 收藏
+ *    >收藏到本地
+ *    >查看收藏列表
  * Controller for Quick Controls pie menu
  */
 @LogInfo(info = "pie")
@@ -133,16 +146,16 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
         mUrl.addItem(mShare);
         mUrl.addItem(makeFiller());
         mUrl.addItem(makeFiller());
-        mPie.addItem(mShowTabs);
-        mShowTabs.addItem(mClose);
-        mShowTabs.addItem(mIncognito);
-        mShowTabs.addItem(mNewTab);
-        mShowTabs.addItem(makeFiller());
-        mPie.addItem(mBookmarks);
-        mBookmarks.addItem(makeFiller());
-        mBookmarks.addItem(makeFiller());
-        mBookmarks.addItem(mAddBookmark);
-        mBookmarks.addItem(mHistory);
+//        mPie.addItem(mShowTabs);
+//        mShowTabs.addItem(mClose);
+//        mShowTabs.addItem(mIncognito);
+//        mShowTabs.addItem(mNewTab);
+//        mShowTabs.addItem(makeFiller());
+//        mPie.addItem(mBookmarks);
+//        mBookmarks.addItem(makeFiller());
+//        mBookmarks.addItem(makeFiller());
+//        mBookmarks.addItem(mAddBookmark);
+//        mBookmarks.addItem(mHistory);
     }
 
     @Override
