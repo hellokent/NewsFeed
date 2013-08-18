@@ -16,27 +16,34 @@ public final class L {
 	private L(){}
 
 	public static void v(final String msg, final Object... args){
-		log(Log.VERBOSE, msg, args);
+		log(Log.VERBOSE, null, msg, args);
 	}
 
 	public static void d(final String msg, final Object... args){
-		log(Log.DEBUG, msg, args);
+		log(Log.DEBUG, null, msg, args);
 	}
 
 	public static void i(final String msg, final Object... args){
-		log(Log.INFO, msg, args);
+		log(Log.INFO, null, msg, args);
 	}
 
 	public static void w(final String msg, final Object... args){
-		log(Log.WARN, msg, args);
+		log(Log.WARN, null, msg, args);
 	}
 
 	public static void e(final String msg, final Object... args){
-		log(Log.ERROR, msg, args);
+		log(Log.ERROR, null, msg, args);
 	}
 
+	public static void exception(final Throwable throwable, final String msg, final Object... args){
+		log(Log.WARN, throwable, msg, args);
+	}
 
-	private static void log(int level, final String msg, final Object... args){
+	public static void exception(final Throwable throwable){
+		log(Log.WARN, throwable, "");
+	}
+
+	private static void log(int level, Throwable throwable, String msg, Object... arg){
 		if (!BuildConfig.DEBUG){
 			return;
 		}
@@ -76,17 +83,22 @@ public final class L {
 		if (TextUtils.isEmpty(tag)){
 			tag = TAG;
 		}
-		if (isShownTrace){
-			appendInfo(strBuffer, info)
-					.append("Stack Trace:\n");
-			for (int i = STACK_DEPTH; i < stacks.length; ++i){
-				strBuffer.append("\t")
-						.append(getThreadInfo(stacks[i]));
+		if (throwable == null){
+			if (isShownTrace){
+				appendInfo(strBuffer, info)
+						.append("Stack Trace:\n");
+				for (int i = STACK_DEPTH; i < stacks.length; ++i){
+					strBuffer.append("\t")
+							.append(getThreadInfo(stacks[i]));
+				}
 			}
 		}
-		appendInfo(strBuffer, info);
-		strBuffer.append(String.format(msg, args));
-		Log.println(level, tag, strBuffer.toString());
+		appendInfo(strBuffer, info).append(String.format(msg, arg));
+		if (throwable == null){
+			Log.println(level, tag, strBuffer.toString());
+		}else {
+			Log.w(tag, strBuffer.toString(), throwable);
+		}
 	}
 
 	private static StringBuilder appendInfo(final StringBuilder strBuf, final String info){
@@ -100,10 +112,10 @@ public final class L {
 	}
 
 	private static String getThreadInfo(StackTraceElement stack){
-		final String fileName = stack.getFileName();
-		return String.format("%s.%s(%d)\n",
-				fileName.substring(0, fileName.indexOf(".")),
+		return String.format("at %s.%s(%s:%d)\n",
+				stack.getClassName(),
 				stack.getMethodName(),
+				stack.getFileName(),
 				stack.getLineNumber());
 	}
 
