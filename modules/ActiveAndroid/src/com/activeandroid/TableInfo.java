@@ -26,7 +26,7 @@ import java.util.Map;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.util.Log;
+import com.activeandroid.util.DBLog;
 
 public final class TableInfo {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ public final class TableInfo {
 				return type.getDeclaredField("mId");
 			}
 			catch (NoSuchFieldException e) {
-				Log.e("Impossible!", e);
+				DBLog.e("Impossible!", e);
 			}
 		}
 		else if (type.getSuperclass() != null) {

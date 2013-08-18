@@ -20,7 +20,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.activeandroid.util.Log;
+import com.activeandroid.util.DBLog;
 import com.activeandroid.util.NaturalOrderComparator;
 import com.activeandroid.util.ReflectionUtils;
 import com.activeandroid.util.SQLiteUtils;
@@ -125,7 +125,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 			return true;
 		}
 		catch (IOException e) {
-			Log.e("Failed to open file", e);
+			DBLog.e("Failed to open file", e);
 		}
 
 		return false;
@@ -138,7 +138,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	private void executePragmas(SQLiteDatabase db) {
 		if (SQLiteUtils.FOREIGN_KEYS_SUPPORTED) {
 			db.execSQL("PRAGMA foreign_keys=ON;");
-			Log.i("Foreign Keys supported. Enabling foreign key features.");
+			DBLog.i("Foreign Keys supported. Enabling foreign key features.");
 		}
 	}
 
@@ -149,7 +149,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 				String sql = SQLiteUtils.createTableDefinition(tableInfo);
 				db.execSQL(sql);
 
-				Log.v(sql);
+				DBLog.v(sql);
 			}
 			db.setTransactionSuccessful();
 		}
@@ -174,11 +174,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 							executeSqlScript(db, file);
 							migrationExecuted = true;
 
-							Log.i(file + " executed succesfully.");
+							DBLog.i(file + " executed succesfully.");
 						}
 					}
 					catch (NumberFormatException e) {
-						Log.w("Skipping invalidly named file: " + file, e);
+						DBLog.w("Skipping invalidly named file: " + file, e);
 					}
 				}
 				db.setTransactionSuccessful();
@@ -188,7 +188,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 			}
 		}
 		catch (IOException e) {
-			Log.e("Failed to execute migrations.", e);
+			DBLog.e("Failed to execute migrations.", e);
 		}
 
 		return migrationExecuted;
@@ -205,7 +205,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 			}
 		}
 		catch (IOException e) {
-			Log.e("Failed to execute " + file, e);
+			DBLog.e("Failed to execute " + file, e);
 		}
 	}
 
@@ -215,7 +215,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 		String name = ReflectionUtils.getMetaData(context, DB_NAME);
 
 		if (name == null) {
-			Log.i("DB_NAME not found. Defaulting name to 'Application.db'.");
+			DBLog.i("DB_NAME not found. Defaulting name to 'Application.db'.");
 			name = "Application.db";
 		}
 
@@ -226,7 +226,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 		Integer version = ReflectionUtils.getMetaData(context, DB_VERSION);
 
 		if (version == null || version == 0) {
-			Log.i("DB_VERSION not found. Defaulting version to 1.");
+			DBLog.i("DB_VERSION not found. Defaulting version to 1.");
 			version = 1;
 		}
 

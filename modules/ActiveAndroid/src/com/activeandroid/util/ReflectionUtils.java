@@ -49,7 +49,7 @@ public final class ReflectionUtils {
 			}
 		}
 		catch (Exception e) {
-			Log.w("Couldn't find meta-data: " + name);
+			DBLog.w("Couldn't find meta-data: " + name);
 		}
 
 		return null;

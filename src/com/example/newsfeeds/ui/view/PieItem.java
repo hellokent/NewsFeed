@@ -21,15 +21,12 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.newsfeeds.ui.view.PieMenu.PieView;
-
 /**
  * Pie menu item
  */
 public class PieItem {
 
     private View mView;
-    private PieView mPieView;
     private int level;
     private float start;
     private float sweep;
@@ -37,25 +34,16 @@ public class PieItem {
     private int inner;
     private int outer;
     private boolean mSelected;
-    private boolean mEnabled;
-    private List<PieItem> mItems;
+	private List<PieItem> mItems;
 
     public PieItem(View view, int level) {
         mView = view;
         this.level = level;
-        mEnabled = true;
         setAnimationAngle(getAnimationAngle());
         setAlpha(getAlpha());
     }
 
-    public PieItem(View view, int level, PieView sym) {
-        mView = view;
-        this.level = level;
-        mPieView = sym;
-        mEnabled = false;
-    }
-
-    public boolean hasItems() {
+	public boolean hasItems() {
         return mItems != null;
     }
 
@@ -91,11 +79,7 @@ public class PieItem {
         return animate;
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
-
-    public void setSelected(boolean s) {
+	public void setSelected(boolean s) {
         mSelected = s;
         if (mView != null) {
             mView.setSelected(s);
@@ -137,23 +121,7 @@ public class PieItem {
         return outer;
     }
 
-    public boolean isPieView() {
-        return (mPieView != null);
-    }
-
     public View getView() {
         return mView;
     }
-
-    public void setPieView(PieView sym) {
-        mPieView = sym;
-    }
-
-    public PieView getPieView() {
-        if (mEnabled) {
-            return mPieView;
-        }
-        return null;
-    }
-
 }

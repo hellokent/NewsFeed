@@ -17,26 +17,23 @@
 package com.example.newsfeeds.ui.view;
 
 import android.app.Activity;
-import android.content.Context;
-import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
-import com.activeandroid.util.Log;
 import com.example.newsfeeds.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.newsfeeds.utils.L;
+import com.example.newsfeeds.utils.LogInfo;
 
 /**
  * Controller for Quick Controls pie menu
  */
+@LogInfo(info = "pie")
 public class PieControl implements PieMenu.PieController, OnClickListener {
 
     protected Activity mActivity;
@@ -59,9 +56,8 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
     private PieItem mFind;
     private PieItem mShare;
     private PieItem mRDS;
-    private TabAdapter mTabAdapter;
 
-    public PieControl(Activity activity) {
+	public PieControl(Activity activity) {
         mActivity = activity;
         mItemSize = (int) activity.getResources().getDimension(R.dimen.qc_item_size);
     }
@@ -97,7 +93,6 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
 
     @Override
     public boolean onOpen() {
-
         return true;
     }
 
@@ -119,17 +114,6 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
         mShowTabs = new PieItem(tabs, 1);
         mOptions = makeItem(R.drawable.ic_settings_holo_dark, 1);
         mRDS = makeItem(R.drawable.ic_desktop_holo_dark, 1);
-        PieStackView stack = new PieStackView(mActivity);
-        stack.setLayoutListener(new PieMenu.PieView.OnLayoutListener() {
-            @Override
-            public void onLayout(int ax, int ay, boolean left) {
-
-//                buildTabs();
-            }
-        });
-        stack.setOnCurrentListener(mTabAdapter);
-        stack.setAdapter(mTabAdapter);
-        mShowTabs.setPieView(stack);
         setClickListener(this, mBack, mRefresh, mForward, mUrl, mFind, mInfo,
                 mShare, mBookmarks, mNewTab, mIncognito, mClose, mHistory,
                 mAddBookmark, mOptions, mRDS);
@@ -162,8 +146,10 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
     }
 
     @Override
+    @LogInfo(info = "pie.onclick")
     public void onClick(View v) {
-        if (mBack.getView() == v) {
+	    L.v("onClick");
+	    if (mBack.getView() == v) {
 	        Log.v("pie", "back");
         } else if (mForward.getView() == v) {
 	        Log.v("pie", "forward");
@@ -199,7 +185,18 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
     }
 
     protected PieItem makeItem(int image, int l) {
-        ImageView view = new ImageView(mActivity);
+        final ImageView view = new ImageView(mActivity){
+	        @Override
+	        public boolean dispatchTouchEvent(MotionEvent event) {
+			    final int action = event.getActionMasked();
+			    switch (action) {
+				    case MotionEvent.ACTION_UP:
+					    performClick();
+					    break;
+			    }
+			    return super.dispatchTouchEvent(event);
+		    }
+        };
         view.setImageResource(image);
         view.setMinimumWidth(mItemSize);
         view.setMinimumHeight(mItemSize);
@@ -224,44 +221,4 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
         v.setLayoutParams(lp);
         return v;
     }
-
-    static class TabAdapter extends BaseAdapter implements PieStackView.OnCurrentListener {
-
-        LayoutInflater mInflater;
-        private List<Object> mTabs;
-        private int mCurrent;
-
-        public TabAdapter(Context ctx) {
-            mInflater = LayoutInflater.from(ctx);
-            mTabs = new ArrayList<Object>();
-            mCurrent = -1;
-        }
-
-        @Override
-        public int getCount() {
-            return mTabs.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mTabs.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-	        return null;
-        }
-
-        @Override
-        public void onSetCurrent(int index) {
-            mCurrent = index;
-        }
-
-    }
-
 }

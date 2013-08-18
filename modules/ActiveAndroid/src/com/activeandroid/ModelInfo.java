@@ -29,7 +29,7 @@ import com.activeandroid.serializer.CalendarSerializer;
 import com.activeandroid.serializer.SqlDateSerializer;
 import com.activeandroid.serializer.TypeSerializer;
 import com.activeandroid.serializer.UtilDateSerializer;
-import com.activeandroid.util.Log;
+import com.activeandroid.util.DBLog;
 import com.activeandroid.util.ReflectionUtils;
 import dalvik.system.DexFile;
 
@@ -64,11 +64,11 @@ final class ModelInfo {
 				scanForModel(application);
 			}
 			catch (IOException e) {
-				Log.e("Couldn't open source path.", e);
+				DBLog.e("Couldn't open source path.", e);
 			}
 		}
 
-		Log.i("ModelInfo loaded.");
+		DBLog.i("ModelInfo loaded.");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ final class ModelInfo {
 				mTableInfos.put(modelClass, new TableInfo(modelClass));
 			}
 			catch (ClassNotFoundException e) {
-				Log.e("Couldn't create class.", e);
+				DBLog.e("Couldn't create class.", e);
 			}
 		}
 	}
@@ -137,13 +137,13 @@ final class ModelInfo {
 				mTypeSerializers.put(typeSerializer.getDeserializedType(), typeSerializer);
 			}
 			catch (ClassNotFoundException e) {
-				Log.e("Couldn't create class.", e);
+				DBLog.e("Couldn't create class.", e);
 			}
 			catch (InstantiationException e) {
-				Log.e("Couldn't instantiate TypeSerializer.", e);
+				DBLog.e("Couldn't instantiate TypeSerializer.", e);
 			}
 			catch (IllegalAccessException e) {
-				Log.e("IllegalAccessException", e);
+				DBLog.e("IllegalAccessException", e);
 			}
 		}
 	}
@@ -232,13 +232,13 @@ final class ModelInfo {
 				}
 			}
 			catch (ClassNotFoundException e) {
-				Log.e("Couldn't create class.", e);
+				DBLog.e("Couldn't create class.", e);
 			}
 			catch (InstantiationException e) {
-				Log.e("Couldn't instantiate TypeSerializer.", e);
+				DBLog.e("Couldn't instantiate TypeSerializer.", e);
 			}
 			catch (IllegalAccessException e) {
-				Log.e("IllegalAccessException", e);
+				DBLog.e("IllegalAccessException", e);
 			}
 		}
 	}
