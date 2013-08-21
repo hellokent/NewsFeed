@@ -1,5 +1,6 @@
 package com.example.newsfeeds.net.renren.base;
 
+import android.os.Build;
 import com.example.newsfeeds.utils.Utils;
 
 import java.util.Random;
@@ -11,10 +12,10 @@ import java.util.Random;
 public final class ClientInfo {
     final String screen = "800*480";
     final String os = "17_4.2.2";
-    final String model = "GT-I9100";
+    final String model = Build.MODEL;
     final String other = "46000,,";
     final Long uniqid = new Random().nextLong();
-    final String from = "9100301";
+    final String from = BaseParams.FROM;
     final String version = "5.9.4";
     final String mac;
 
