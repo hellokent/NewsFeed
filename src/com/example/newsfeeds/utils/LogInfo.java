@@ -20,7 +20,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface LogInfo {
-	String tag() default "";
+	String tag() default L.TAG;
 	String info() default "";
 	boolean showTrace() default false;
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.newsfeeds.BuildConfig;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * print log
@@ -55,28 +56,39 @@ public final class L {
 		String info = "";
 		boolean isShownTrace = false;
 		try {
-			final Class clazz = Class.forName(stack.getClassName());
-			LogInfo methodLogInfo = null;
-			for (Method method : clazz.getMethods()){
-				if (method.getName().equals(stack.getMethodName())){
-					if (methodLogInfo == null)
-						methodLogInfo = method.getAnnotation(LogInfo.class);
-					if (methodLogInfo != null && methodLogInfo.showTrace()){
-						isShownTrace = true;
-						break;
+			final ArrayList<Class> classes = new ArrayList<Class>();
+			String className = stack.getClassName();
+
+			classes.add(Class.forName(stack.getClassName()));
+			while (className.contains("$")){
+				try {
+					className = className.substring(0, className.lastIndexOf("$"));
+					classes.add(Class.forName(className));
+				}catch (Throwable ignored){}
+			}
+			for (Class clazz : classes){
+				LogInfo methodLogInfo = null;
+				for (Method method : clazz.getMethods()){
+					if (method.getName().equals(stack.getMethodName())){
+						if (methodLogInfo == null)
+							methodLogInfo = method.getAnnotation(LogInfo.class);
+						if (methodLogInfo != null && methodLogInfo.showTrace()){
+							isShownTrace = true;
+							break;
+						}
 					}
 				}
-			}
-			if (methodLogInfo != null){
-				tag = methodLogInfo.tag();
-				info = methodLogInfo.info();
-			}
-			final LogInfo classLogInfo = (LogInfo) clazz.getAnnotation(LogInfo.class);
-			if (classLogInfo != null){
-				if (TextUtils.isEmpty(tag))
-					tag = classLogInfo.tag();
-				if (TextUtils.isEmpty(info))
-					info = classLogInfo.info();
+				if (methodLogInfo != null){
+					tag = methodLogInfo.tag();
+					info = methodLogInfo.info();
+				}
+				final LogInfo classLogInfo = (LogInfo) clazz.getAnnotation(LogInfo.class);
+				if (classLogInfo != null){
+					if (TextUtils.isEmpty(tag))
+						tag = classLogInfo.tag();
+					if (TextUtils.isEmpty(info))
+						info = classLogInfo.info();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

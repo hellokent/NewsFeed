@@ -167,6 +167,14 @@ public class PieControl implements PieMenu.PieController, OnClickListener {
     @LogInfo(showTrace = true)
     public void onClick(View v) {
 	    L.v("onClick");
+	    OnClickListener onClickListener = new OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    L.v("onClick Inner");
+		    }
+	    };
+
+	    onClickListener.onClick(null);
 	    if (mBack.getView() == v) {
 	        Log.v("pie", "back");
         } else if (mForward.getView() == v) {

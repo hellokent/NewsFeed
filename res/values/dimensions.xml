@@ -11,4 +11,8 @@
     <dimen name="qc_item_size">40dip</dimen>
     <dimen name="menu_width">240dip</dimen>
     <dimen name="menu_height">32dip</dimen>
+
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
 </resources>

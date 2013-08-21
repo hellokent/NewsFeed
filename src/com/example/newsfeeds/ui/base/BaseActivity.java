@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import com.example.newsfeeds.utils.L;
 
 /**
  * Activity的基础类，每个Activity需要注册一个Manager，在这个类的注解里声明即可
@@ -22,7 +23,6 @@ public abstract class BaseActivity<T extends BaseManager> extends Activity {
 		}
 	};
 
-
 	public BaseActivity(){
 		super();
 		ManagerInject managerInject = getClass().getAnnotation(ManagerInject.class);
@@ -31,6 +31,7 @@ public abstract class BaseActivity<T extends BaseManager> extends Activity {
 				mManager = (T) managerInject.value().getConstructor(MANAGER_CONSTRUCTOR_CLASSES).newInstance(mManagerHandler);
 			} catch (Exception e) {
 				e.printStackTrace();
+				L.exception(e);
 			}
 		}
 	}

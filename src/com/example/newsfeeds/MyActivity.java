@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import com.example.newsfeeds.net.httppool.HttpPool;
+import com.example.newsfeeds.net.renren.LoginModel;
+import com.example.newsfeeds.net.renren.LoginParam;
+import com.example.newsfeeds.net.renren.base.CommonParams;
+import com.example.newsfeeds.net.renren.base.RenrenPost;
+import com.example.newsfeeds.net.renren.base.RenrenVisitor;
 import com.example.newsfeeds.ui.view.PieControl;
 import com.example.newsfeeds.utils.L;
 import com.example.newsfeeds.utils.LogInfo;
 
-@LogInfo(tag = "my", info = "activity")
+@LogInfo(info = "activity")
 public class MyActivity extends Activity {
 	PieControl mPieControl;
+
 	@Override
-	@LogInfo(showTrace = true)
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mPieControl = new PieControl(this);
@@ -20,6 +26,26 @@ public class MyActivity extends Activity {
 		setContentView(contentView);
 		FrameLayout rootView = (FrameLayout) contentView.findViewById(R.id.root);
 		mPieControl.attachToContainer(rootView);
-		L.exception(new Exception(), "test test");
+
+		HttpPool.POOL.sendRequest(new RenrenVisitor<LoginParam, LoginModel>(
+				"client/login", new LoginParam("chenyang.coder@gmail.com", "bobking999"), LoginModel.class) {
+
+			@Override
+			public void onSuccess(LoginModel model) {
+				CommonParams.sSessionKey = model.session_key;
+				RenrenPost.sSecretKey = model.secret_key;
+			}
+
+			@Override
+			public void onError(LoginModel model) {
+				L.v("onError:%s", model.toString());
+			}
+
+			@Override
+			public void onFailed(Throwable throwable) {
+				super.onFailed(throwable);
+				L.v("onFailed");
+			}
+		});
 	}
 }
