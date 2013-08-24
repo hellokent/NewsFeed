@@ -37,7 +37,7 @@ public abstract class Model {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	@Column(name = "Id")
+	@Column(value = "Id")
 	private Long mId = null;
 
 	private TableInfo mTableInfo;

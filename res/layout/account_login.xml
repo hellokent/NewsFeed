@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+        android:paddingTop="50dp">
+
+    <Button
+            android:id="@+id/login_sina"
+            android:layout_width="280dp"
+            android:layout_height="60dip"
+            android:text="@string/login_sina"
+            android:textSize="33sp"
+            android:gravity="center"
+            android:onClick="loginSinaClicked"/>
+
+    <Button
+            android:id="@+id/login_renren"
+            android:layout_width="280dp"
+            android:layout_height="60dip"
+            android:text="@string/login_renren"
+            android:textSize="33sp"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:onClick="loginRenrenClicked"/>
+
+
+</RelativeLayout>

@@ -12,13 +12,21 @@ import com.example.newsfeeds.utils.L;
  * Created by chenyang.coder@gmail.com on 13-8-17 下午10:37.
  */
 public abstract class BaseActivity<T extends BaseManager> extends Activity {
-	static final Class[] MANAGER_CONSTRUCTOR_CLASSES = {Handler.class};
+	static final Class[] EMPTY_CLASSES = {};
 
-	T mManager = null;
-	Handler mManagerHandler = new Handler(Looper.getMainLooper()){
+	T mManager;
+	final Handler mManagerHandler = new Handler(Looper.getMainLooper()){
+		@Override
+		public void dispatchMessage(Message msg) {
+			super.dispatchMessage(msg);
+			L.v("dispatchMessage");
+			BaseActivity.this.handleMessage(msg);
+		}
+
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
+			L.v("handleMessage");
 			BaseActivity.this.handleMessage(msg);
 		}
 	};
@@ -28,7 +36,8 @@ public abstract class BaseActivity<T extends BaseManager> extends Activity {
 		ManagerInject managerInject = getClass().getAnnotation(ManagerInject.class);
 		if (managerInject != null){
 			try {
-				mManager = (T) managerInject.value().getConstructor(MANAGER_CONSTRUCTOR_CLASSES).newInstance(mManagerHandler);
+				mManager = (T) managerInject.value().getConstructor(EMPTY_CLASSES).newInstance();
+				mManager.setUIHandler(mManagerHandler);
 			} catch (Exception e) {
 				e.printStackTrace();
 				L.exception(e);
@@ -39,15 +48,51 @@ public abstract class BaseActivity<T extends BaseManager> extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mManager.onInit(getIntent());
+		getManager().onCreate(getIntent(), savedInstanceState);
+	}
+
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		getManager().onStart();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getManager().onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		getManager().onPause();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		getManager().onRestart();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		getManager().onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		getManager().onStop();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mManager.onDestory();
+		getManager().onDestory();
 	}
-
 	public abstract void handleMessage(final Message message);
 
 	public T getManager(){

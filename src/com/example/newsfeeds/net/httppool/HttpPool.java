@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by chenyang.coder@gmail.com on 13-8-22 上午12:48.
  */
-@LogInfo(info = "pool")
+@LogInfo(info = "pool", isEnable = false)
 public enum HttpPool {
 	POOL;
 	static final ExecutorService EXECUTOR_SERVICE = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 3);
@@ -33,9 +33,12 @@ public enum HttpPool {
 			@Override
 			public void run() {
 				try {
+					L.v("begin execute");
 					final HttpResponse resp = new DefaultHttpClient(TEXT_HTTP_PARAMS).execute(visitor.getRequest());
+					L.v("end execute");
 					visitor.onSuccess(resp);
 				} catch (IOException e) {
+					L.exception(e);
 					e.printStackTrace();
 					visitor.onFailed(e);
 				}

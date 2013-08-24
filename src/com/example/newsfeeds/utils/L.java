@@ -55,6 +55,7 @@ public final class L {
 		String tag = "";
 		String info = "";
 		boolean isShownTrace = false;
+		boolean isEnable = true;
 		try {
 			final ArrayList<Class> classes = new ArrayList<Class>();
 			String className = stack.getClassName();
@@ -75,6 +76,9 @@ public final class L {
 						if (methodLogInfo != null && methodLogInfo.showTrace()){
 							isShownTrace = true;
 							break;
+						}
+						if (methodLogInfo != null){
+							isEnable &= methodLogInfo.isEnable();
 						}
 					}
 				}

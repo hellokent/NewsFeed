@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NewsFeeds</string>
+    <string name="login_renren">Login Renren</string>
+    <string name="login_sina">Login Sina</string>
+    <string name="renren_username">your name</string>
+    <string name="renren_username_label">your name:</string>
+    <string name="renren_pwd_label">your password:</string>
+    <string name="submit">Submit</string>
+    <string name="login_renren_welcome">Hello, %s! Welcome to new world!</string>
 </resources>

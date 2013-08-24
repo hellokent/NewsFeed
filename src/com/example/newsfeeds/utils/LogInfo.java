@@ -23,4 +23,5 @@ public @interface LogInfo {
 	String tag() default L.TAG;
 	String info() default "";
 	boolean showTrace() default false;
+	boolean isEnable() default true;
 }

@@ -32,7 +32,7 @@ public @interface Column {
 		SET_NULL, SET_DEFAULT, CASCADE, RESTRICT, NO_ACTION
 	}
 
-	public String name();
+	public String value();
 
 	public int length() default -1;
 

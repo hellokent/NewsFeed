@@ -22,7 +22,7 @@ public final class ViewMapUtil {
 	 * @param rootView 要映射对象所要查询的根控件
 	 * @author dingwei.chen
 	 */
-	public static void viewMapping(Object object, View rootView) {
+	public static void map(Object object, View rootView) {
 		Class<?> clazz = object.getClass();
 		while (clazz != null &&
 				!clazz.equals(Activity.class) &&
@@ -58,11 +58,19 @@ public final class ViewMapUtil {
 		}
 	}
 
-	public static View viewMapping(Object object, Context context) {
+	public static View map(Object object, Context context) {
 		final View rootView = View.inflate(context, getViewMapping(object.getClass()).value(), null);
-		viewMapping(object, rootView);
+		map(object, rootView);
 		return rootView;
 	}
+
+	public static View mapForActivity(Activity activity) {
+		final View rootView = View.inflate(activity, getViewMapping(activity.getClass()).value(), null);
+		map(activity, rootView);
+		activity.setContentView(rootView);
+		return rootView;
+	}
+
 
 	/**
 	 * 根据ViewHolder的Class对象，新建一个ViewHolder类和对应Layout的View对象
@@ -70,7 +78,7 @@ public final class ViewMapUtil {
 	 * @return Pair.first是对应的ViewHolder，Pair.second是ViewHolder注解里面的Layout对应的View
 	 * @author yang-chen
 	 */
-	public static <T> Pair<T, View> viewMapping(Class<T> clazz, LayoutInflater inflater, ViewGroup root) {
+	public static <T> Pair<T, View> map(Class<T> clazz, LayoutInflater inflater, ViewGroup root) {
 		Pair<T, View> pair = null;
 		T object;
 		try {
@@ -78,23 +86,23 @@ public final class ViewMapUtil {
 			View rootView = inflater.inflate(
 					getViewMapping(clazz).value(), root, false);
 			pair = new Pair<T, View>(object, rootView);
-			viewMapping(object, rootView);
+			map(object, rootView);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return pair;
 	}
 
-	public static <T> Pair<T, View> viewMapping(Class<T> clazz, LayoutInflater inflater) {
-		return viewMapping(clazz, inflater, null);
+	public static <T> Pair<T, View> map(Class<T> clazz, LayoutInflater inflater) {
+		return map(clazz, inflater, null);
 	}
 
-	public static <T> Pair<T, View> viewMapForConvert(Class<T> clazz, View convertView, Context context) {
+	public static <T> Pair<T, View> mapForConvert(Class<T> clazz, View convertView, Context context) {
 		final T $t;
 		if (convertView != null) {
 			$t = (T) convertView.getTag();
 		} else {
-			Pair<T, View> pair = viewMapping(clazz, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+			Pair<T, View> pair = map(clazz, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 			$t = pair.first;
 			convertView = pair.second;
 			convertView.setTag($t);

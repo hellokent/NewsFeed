@@ -1,13 +1,13 @@
 package com.example.newsfeeds.utils;
 
+import android.app.Dialog;
+import android.widget.Toast;
+import com.example.newsfeeds.GlobalApplication;
 import com.example.newsfeeds.net.renren.base.BaseParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -136,5 +136,27 @@ public class Utils {
         //3、将拼好的字符串转成MD5值
         return Utils.toMD5(buffer.toString());
     }
+
+	public static void toast(final int strId, final Object... arg){
+		toast(GlobalApplication.getApplication().getString(strId, arg));
+	}
+
+	public static void toast(final String msg, final Object... arg){
+		GlobalApplication.getUiIHandler().post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(
+						GlobalApplication.getApplication(),
+						String.format(msg, arg), Toast.LENGTH_SHORT
+				).show();
+			}
+		});
+	}
+
+	public static void dismissDialog(final Dialog dialog){
+		if (dialog.isShowing()){
+			dialog.dismiss();
+		}
+	}
 
 }

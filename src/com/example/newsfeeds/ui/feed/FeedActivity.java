@@ -36,7 +36,7 @@ public class FeedActivity extends BaseActivity<FeedManager> {
 		mMenu.setFadeDegree(0.35f);
 		mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
-		ViewMapUtil.viewMapping(this, this);
+		ViewMapUtil.map(this, this);
 	}
 
 	@Override

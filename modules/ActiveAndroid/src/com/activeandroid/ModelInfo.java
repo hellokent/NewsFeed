@@ -16,15 +16,9 @@ package com.activeandroid;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.activeandroid.serializer.CalendarSerializer;
 import com.activeandroid.serializer.SqlDateSerializer;
 import com.activeandroid.serializer.TypeSerializer;
@@ -33,13 +27,18 @@ import com.activeandroid.util.DBLog;
 import com.activeandroid.util.ReflectionUtils;
 import dalvik.system.DexFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+
 final class ModelInfo {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private final static String AA_MODELS = "AA_MODELS";
-	private final static String AA_SERIALIZERS = "AA_SERIALIZERS";
+	private final static String MODELS = "MODELS";
+	private final static String SERIALIZERS = "SERIALIZERS";
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
@@ -97,11 +96,11 @@ final class ModelInfo {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private boolean loadModelFromMetaData(Application application) {
-		final String modelList = ReflectionUtils.getMetaData(application, AA_MODELS);
-		final String serializerList = ReflectionUtils.getMetaData(application, AA_SERIALIZERS);
+		final String modelList = ReflectionUtils.getMetaData(application, MODELS);
+		final String serializerList = ReflectionUtils.getMetaData(application, SERIALIZERS);
 
 		if (!TextUtils.isEmpty(modelList)) {
-			loadModelList(application, modelList.split(","));
+			loadModelList(application, modelList.trim().split(","));
 		}
 
 		if (!TextUtils.isEmpty(serializerList)) {

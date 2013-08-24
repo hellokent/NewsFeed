@@ -47,7 +47,7 @@ public final class TableInfo {
 
 		final Table tableAnnotation = type.getAnnotation(Table.class);
 		if (tableAnnotation != null) {
-			mTableName = tableAnnotation.name();
+			mTableName = tableAnnotation.value();
 		}
 		else {
 			mTableName = type.getSimpleName();
@@ -59,7 +59,7 @@ public final class TableInfo {
 		for (Field field : fields) {
 			if (field.isAnnotationPresent(Column.class)) {
 				final Column columnAnnotation = field.getAnnotation(Column.class);
-				mColumnNames.put(field, columnAnnotation.name());
+				mColumnNames.put(field, columnAnnotation.value());
 			}
 		}
 	}
