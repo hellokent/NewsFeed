@@ -223,6 +223,7 @@ final class ModelInfo {
 				if (ReflectionUtils.isModel(discoveredClass)) {
 					@SuppressWarnings("unchecked")
 					Class<? extends Model> modelClass = (Class<? extends Model>) discoveredClass;
+					DBLog.d("init Model:" + modelClass.getName());
 					mTableInfos.put(modelClass, new TableInfo(modelClass));
 				}
 				else if (ReflectionUtils.isTypeSerializer(discoveredClass)) {

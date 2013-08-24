@@ -1,5 +1,6 @@
 package com.example.newsfeeds.net.renren;
 
+import com.example.newsfeeds.Config;
 import com.example.newsfeeds.net.renren.base.BaseParams;
 import com.example.newsfeeds.utils.Utils;
 
@@ -13,6 +14,6 @@ public class LoginParam extends BaseParams {
         put("uniq_id", System.currentTimeMillis());
         put("password", Utils.toMD5(pwd));
         put("user", user);
-        put("sig", Utils.getSignature(this, SECRET_KEY));
+        put("sig", Utils.getSignature(this, Config.RENREN_SECRET_KEY));
     }
 }

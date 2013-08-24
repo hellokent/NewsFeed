@@ -15,6 +15,7 @@
             .db.modules.NewsFeedModel,
             .db.modules.RenrenFriend,
             .db.modules.SinaFriend,
+            .db.modules.Account
             "/>
 
         <activity android:name=".ui.feed.FeedActivity"/>

@@ -21,7 +21,7 @@ public final class DBLog {
 	// PUBLIC MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static String sTag = "ActiveAndroid";
+	private static String sTag = "newsfeed";
 	private static boolean sEnabled = false;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +48,7 @@ public final class DBLog {
 	}
 
 	public static int v(String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.v(sTag, msg);
 		}
@@ -55,6 +56,7 @@ public final class DBLog {
 	}
 
 	public static int v(String tag, String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.v(tag, msg);
 		}
@@ -62,6 +64,7 @@ public final class DBLog {
 	}
 
 	public static int v(String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.v(sTag, msg, tr);
 		}
@@ -69,6 +72,7 @@ public final class DBLog {
 	}
 
 	public static int v(String tag, String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.v(tag, msg, tr);
 		}
@@ -76,6 +80,7 @@ public final class DBLog {
 	}
 
 	public static int d(String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.d(sTag, msg);
 		}
@@ -83,6 +88,7 @@ public final class DBLog {
 	}
 
 	public static int d(String tag, String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.d(tag, msg);
 		}
@@ -90,6 +96,7 @@ public final class DBLog {
 	}
 
 	public static int d(String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.d(sTag, msg, tr);
 		}
@@ -97,6 +104,7 @@ public final class DBLog {
 	}
 
 	public static int d(String tag, String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.d(tag, msg, tr);
 		}
@@ -104,6 +112,7 @@ public final class DBLog {
 	}
 
 	public static int i(String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.i(sTag, msg);
 		}
@@ -111,6 +120,7 @@ public final class DBLog {
 	}
 
 	public static int i(String tag, String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.i(tag, msg);
 		}
@@ -118,6 +128,7 @@ public final class DBLog {
 	}
 
 	public static int i(String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.i(sTag, msg, tr);
 		}
@@ -125,6 +136,7 @@ public final class DBLog {
 	}
 
 	public static int i(String tag, String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.i(tag, msg, tr);
 		}
@@ -132,6 +144,7 @@ public final class DBLog {
 	}
 
 	public static int w(String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.w(sTag, msg);
 		}
@@ -139,6 +152,7 @@ public final class DBLog {
 	}
 
 	public static int w(String tag, String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.w(tag, msg);
 		}
@@ -146,6 +160,7 @@ public final class DBLog {
 	}
 
 	public static int w(String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.w(sTag, msg, tr);
 		}
@@ -153,6 +168,7 @@ public final class DBLog {
 	}
 
 	public static int w(String tag, String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.w(tag, msg, tr);
 		}
@@ -160,6 +176,7 @@ public final class DBLog {
 	}
 
 	public static int e(String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.e(sTag, msg);
 		}
@@ -167,6 +184,7 @@ public final class DBLog {
 	}
 
 	public static int e(String tag, String msg) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.e(tag, msg);
 		}
@@ -174,6 +192,7 @@ public final class DBLog {
 	}
 
 	public static int e(String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.e(sTag, msg, tr);
 		}
@@ -181,6 +200,7 @@ public final class DBLog {
 	}
 
 	public static int e(String tag, String msg, Throwable tr) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.e(tag, msg, tr);
 		}
@@ -188,6 +208,7 @@ public final class DBLog {
 	}
 
 	public static int t(String msg, Object... args) {
+		msg = "[db] " + msg;
 		if (sEnabled) {
 			return android.util.Log.v("test", String.format(msg, args));
 		}

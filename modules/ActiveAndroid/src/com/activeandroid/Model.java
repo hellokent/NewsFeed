@@ -19,7 +19,6 @@ package com.activeandroid;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.activeandroid.annotation.Column;
 import com.activeandroid.content.ContentProvider;
 import com.activeandroid.query.Delete;
@@ -28,11 +27,12 @@ import com.activeandroid.serializer.TypeSerializer;
 import com.activeandroid.util.DBLog;
 import com.activeandroid.util.ReflectionUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public abstract class Model {
+public abstract class Model implements Cloneable, Serializable {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +54,17 @@ public abstract class Model {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+
+	@Override
+	protected Model clone() {
+		Model model = null;
+		try {
+			model = (Model) super.clone();
+			model.mTableInfo = mTableInfo;
+		} catch (CloneNotSupportedException e) {}
+		return model;
+	}
+
 	public final Long getId() {
 		return mId;
 	}
@@ -66,9 +77,29 @@ public abstract class Model {
 				.notifyChange(ContentProvider.createUri(mTableInfo.getType(), mId), null);
 	}
 
+	protected void onBeginSave(boolean isInserting){
+
+	}
+
+	protected boolean needInsert(){
+		return true;
+	}
+
+	protected void onEndSave(boolean isInserting){
+
+	}
+
 	public final void save() {
 		final SQLiteDatabase db = Cache.openDatabase();
 		final ContentValues values = new ContentValues();
+
+		final boolean isInserting = getId() == null;
+		onBeginSave(isInserting);
+
+		if (isInserting && !needInsert()) {
+			return;
+		}
+
 
 		for (Field field : mTableInfo.getFields()) {
 			final String fieldName = mTableInfo.getColumnName(field);
@@ -155,6 +186,8 @@ public abstract class Model {
 
 		Cache.getContext().getContentResolver()
 				.notifyChange(ContentProvider.createUri(mTableInfo.getType(), mId), null);
+
+		onEndSave(isInserting);
 	}
 
 	// Convenience methods
@@ -165,6 +198,10 @@ public abstract class Model {
 
 	public static <T extends Model> T load(Class<T> type, long id) {
 		return new Select().from(type).where("Id=?", id).executeSingle();
+	}
+
+	public static <T extends Model> T load(Class<T> type, String where, Object... args) {
+		return new Select().from(type).where(where, args).executeSingle();
 	}
 
 	// Model population

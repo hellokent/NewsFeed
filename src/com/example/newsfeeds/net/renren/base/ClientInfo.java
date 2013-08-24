@@ -1,6 +1,7 @@
 package com.example.newsfeeds.net.renren.base;
 
 import android.os.Build;
+import com.example.newsfeeds.Config;
 import com.example.newsfeeds.utils.Utils;
 
 import java.util.Random;
@@ -15,7 +16,7 @@ public final class ClientInfo {
     final String model = Build.MODEL;
     final String other = "46000,,";
     final Long uniqid = new Random().nextLong();
-    final String from = BaseParams.FROM;
+    final String from = Config.RENREN_FROM;
     final String version = "5.9.4";
     final String mac;
 

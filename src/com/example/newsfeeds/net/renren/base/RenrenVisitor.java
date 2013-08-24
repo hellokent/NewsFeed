@@ -12,7 +12,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * Created by chenyang.coder@gmail.com on 13-8-22 上午1:09.
  */
-@LogInfo(info = "renren_visitor")
+@LogInfo(info = "renren_visitor", isEnable = false)
 public abstract class RenrenVisitor<PARAM extends BaseParams, MODEL extends BaseModel> extends ApiVisitor{
 
 	final Class<MODEL> kModelClass;
